@@ -15,6 +15,8 @@ Fortuna
 
 ## Product Backlog URL
 
+[Product Backlog Miro Link](https://miro.com/app/board/uXjVK58JTRI=/?moveToWidget=3458764594039640653&cot=14)
+
 ## Oyun Açıklaması
 
 ## Oyun Özellikleri
