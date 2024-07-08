@@ -21,7 +21,7 @@ WOBBLY MAYHEM
 
 ## Oyun Açıklaması
 
-Wobbly Mayhem ile arkadaşlarınıza karşı kaotik ve fizik tabanlı PvP düellolarına dalın! Silahlarınızı kuşanın ve onlara (şüpheli bir şekilde) hakim olun, arkadaşlarınıza kimin en iyi olduğunu gösterin. Her maç, hızlı tempolu ve unutulmaz bir deneyim sunar.
+Wobbly Mayhem ile arkadaşlarınıza karşı kaotik ve fizik tabanlı PvP düellolarına dalın! Silahlarınızı kuşanın, nişan alın (şüpheli) ve arenaya girip kimin en iyi olduğunu gösterin. Her maç, hızlı tempolu ve unutulmaz bir deneyim sunar.
 
 ## Oyun Özellikleri
 
