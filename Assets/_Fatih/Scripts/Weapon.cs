@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Weapon : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] LayerMask interactionLayer; // Etkileþim katmaný
     [SerializeField] GameObject bulletImpact; // Kurþun çarptýðýnda kullanýlacak efekt
+    [SerializeField] GameObject Player; // Kurþun çarptýðýnda kullanýlacak efekt
     [SerializeField] Camera cam; // Silahýn kullanacaðý kamera
 
     [Header("General Specs")]
@@ -25,6 +27,7 @@ public class Weapon : MonoBehaviour
 
     [Header("Gravity Gun")]
     [SerializeField] float gravityGunForce; // Gravity Gun kuvveti
+    [SerializeField] VisualEffect muzzleVFX;
 
     void OnEnable()
     {
@@ -92,6 +95,7 @@ public class Weapon : MonoBehaviour
             {
                 // Mermiyi azalt
                 _bullet--;
+                muzzleVFX.Play();
 
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -103,7 +107,7 @@ public class Weapon : MonoBehaviour
                     float spreadX = Random.Range(-spreadAngle, spreadAngle);
                     float spreadY = Random.Range(0f, spreadAngle);
 
-                    Vector3 spreadPosition = new(spreadX, spreadY, 0);
+                    Vector3 spreadPosition = new(spreadX, spreadY, spreadX);
                     Instantiate(bulletImpact, hit.point + spreadPosition, Quaternion.identity);
 
                     // Silahýn rotasyonunu yayýlma açýsýna göre ayarla
