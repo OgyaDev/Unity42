@@ -1,7 +1,9 @@
 
 # Takım İsmi
 (U42)
-![fortunagames](https://github.com/user-attachments/assets/8cef2858-ce94-4cc5-9926-bb2604d6930d)
+
+![fortunagameslogo](https://github.com/user-attachments/assets/4b24f4b3-5520-469f-8683-a6c04ad0c208)
+
 
 ## Takım Üyeleri
 
