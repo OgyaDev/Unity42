@@ -1,7 +1,7 @@
 
 # Takım İsmi
-
-Fortuna Games (U42)
+(U42)
+![fortunagames](https://github.com/user-attachments/assets/8cef2858-ce94-4cc5-9926-bb2604d6930d)
 
 ## Takım Üyeleri
 
