@@ -74,3 +74,4 @@ Wobbly Mayhem ile arkadaşlarınıza karşı kaotik ve fizik tabanlı PvP düell
 * Sprint Retrospective:
   * Tasarım grubu için görev dağılımı yapılmıştır.
   * Sprint 2 için daha yoğun tempoda çalışma hedeflenmiştir.
+
