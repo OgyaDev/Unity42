@@ -5,12 +5,13 @@ using UnityEngine.VFX;
 public class Weapon : MonoBehaviour
 {
     // Silah türlerini belirten bir enum
-    public enum WeaponType { Knife, Pistol, MachineGun, GravityGun };
+    public enum WeaponType { Knife, Pistol, Rifle, GravityGun };
     public WeaponType weaponType;
+
+    Quaternion startRot;
 
     [SerializeField] LayerMask interactionLayer; // Etkileþim katmaný
     [SerializeField] GameObject bulletImpact; // Kurþun çarptýðýnda kullanýlacak efekt
-    [SerializeField] GameObject Player; // Kurþun çarptýðýnda kullanýlacak efekt
     [SerializeField] Camera cam; // Silahýn kullanacaðý kamera
 
     [Header("General Specs")]
@@ -18,6 +19,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] int spareBullet; // Yedek mermi sayýsý
     [SerializeField] int magazineBullet; // Silahýn þarjörü doluyken alabileceði maksimum mermi sayýsý
     [SerializeField] int _bullet; // Anlýk mermi sayýsý
+    [SerializeField] int currentRecoilIndex;
     [SerializeField] bool reloading; // Yeniden yükleme yapýlýyor mu?
     [SerializeField] bool playerShoots; // Oyuncu þu anda ateþ ediyor mu?
     [SerializeField] bool playerCanShoot = true; // Oyuncu ateþ edebilir mi?
@@ -29,10 +31,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] float gravityGunForce; // Gravity Gun kuvveti
     [SerializeField] VisualEffect muzzleVFX;
 
-    void OnEnable()
+    WeaponManager weaponManager;
+
+    private void Start()
     {
         // Maksimum mermi sayýsýný anlýk mermi sayýsýyla eþitle
         magazineBullet = _bullet;
+        startRot = transform.localRotation;
+        weaponManager = GetComponentInParent<WeaponManager>();
     }
 
     private void Update()
@@ -48,6 +54,18 @@ public class Weapon : MonoBehaviour
         {
             Reload();
         }
+
+        if (currentRecoilIndex > 0 && !playerShoots)
+        {
+            Invoke(nameof(RecoilLower), firingRate * 2);
+        }
+
+    }
+
+    void RecoilLower()
+    {
+        currentRecoilIndex--;
+        if (currentRecoilIndex < 0) currentRecoilIndex = 0;
     }
 
     void Fire()
@@ -68,12 +86,12 @@ public class Weapon : MonoBehaviour
                     {
                         ShootRay(gunRange, bulletImpact);
                         Rigidbody rb = FindAnyObjectByType<PlayerControllerF>().GetComponent<Rigidbody>();
-                        rb.AddForce(Vector3.up * gravityGunForce * gunRange * Time.deltaTime, ForceMode.Impulse);
+                        rb.AddForce(Vector3.up * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
                         gravityGunForce = 0f;
                     }
                     break;
 
-                case WeaponType.MachineGun:
+                case WeaponType.Rifle:
                     // Makinalý Tüfek: Sürekli ateþle
                     ShootRay(gunRange, bulletImpact);
                     break;
@@ -82,6 +100,12 @@ public class Weapon : MonoBehaviour
                     // Tabanca: Sol fare tuþuna basýldýðýnda ateþle
                     if (Input.GetKeyDown(KeyCode.Mouse0)) ShootRay(gunRange, bulletImpact);
                     break;
+
+                case WeaponType.Knife:
+                    // Býçak
+                    if (Input.GetKeyDown(KeyCode.Mouse0)) Debug.Log("sol atak");
+                    if (Input.GetKeyDown(KeyCode.Mouse1)) Debug.Log("sað atak");
+                       break;
             }
         }
     }
@@ -96,29 +120,33 @@ public class Weapon : MonoBehaviour
                 // Mermiyi azalt
                 _bullet--;
                 muzzleVFX.Play();
-
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+                
+                Vector3 forward = cam.transform.forward;
+                Vector3 spreadBullet = cam.transform.TransformDirection(weaponManager.recoilVectorList[currentRecoilIndex]);
+                Vector3 randomSpread = new(Random.Range(0, 0.03f), Random.Range(0, 0.015f));
+                Vector3 spreadRay = forward + spreadBullet + randomSpread;
 
                 // Bir objeye isabet etti mi?
-                if (Physics.Raycast(ray, out hit, fireDistance, interactionLayer))
+                if (Physics.Raycast(cam.transform.position, spreadRay, out RaycastHit hit, fireDistance, interactionLayer))
                 {
-                    // Kurþunun yayýlma açýsýný hesapla ve mermi etkisini oluþtur
-                    float spreadX = Random.Range(-spreadAngle, spreadAngle);
-                    float spreadY = Random.Range(0f, spreadAngle);
-
-                    Vector3 spreadPosition = new(spreadX, spreadY, spreadX);
-                    Instantiate(bulletImpact, hit.point + spreadPosition, Quaternion.identity);
-
-                    // Silahýn rotasyonunu yayýlma açýsýna göre ayarla
-                    Quaternion spreadRotation = Quaternion.Euler(spreadX, spreadY, 0);
-                    transform.rotation = spreadRotation;
+                    Instantiate(bulletImpact, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(spreadRay));
                 }
+
+                // Silahýn rotasyonunu yayýlma açýsýna göre ayarla
+                Vector3 quaRot = new(weaponManager.recoilVectorList[currentRecoilIndex].x, 0f, weaponManager.recoilVectorList[currentRecoilIndex].y);
+                quaRot.y = Mathf.Min(quaRot.y, 0.2f);
+                Quaternion spreadRotation = Quaternion.Euler( quaRot * -1f); //Euler(recoilList.x, recoilList.y, recoilList.z);
+                transform.localRotation *= spreadRotation;
             }
 
             // Ateþ etmeyi baþlat ve bir süre sonra durdur
             playerShoots = true;
+            currentRecoilIndex++;
             StartCoroutine(BasicTimer("playerShoots", firingRate));
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, startRot, firingRate);
         }
     }
 

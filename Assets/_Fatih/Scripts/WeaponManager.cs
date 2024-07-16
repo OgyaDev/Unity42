@@ -4,28 +4,61 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> weapons;
+    public List<Vector3> recoilVectorList;
+    public List<Quaternion> recoilRotationList;
+    
 
-    PlayerControllerF _playerController;
-    Rigidbody _playerRb;
+    public bool haveRifle;
+    public bool haveGravityGun;
 
-    void Start()
+    Dictionary<KeyCode, int> keyToWeapon;
+
+    private void Start()
     {
-        _playerController = FindAnyObjectByType<PlayerControllerF>();
-        _playerRb = _playerController.GetComponent<Rigidbody>();
+        keyToWeapon = new Dictionary<KeyCode, int>
+        {
+            { KeyCode.Alpha1, 2 }, // Rifle
+            { KeyCode.Alpha2, 1 }, // Pistol
+            { KeyCode.Alpha3, 0 }, // Knife
+            { KeyCode.Alpha4, 3 }  // Gravity Gun
+        };
+
+        if (haveRifle)
+        {
+            foreach (var weapon in weapons) { weapon.SetActive(false); }
+            weapons[2].SetActive(true);
+        }
+        else
+        {
+            foreach (var weapon in weapons) { weapon.SetActive(false); }
+            weapons[1].SetActive(true);
+        }
+        
     }
 
-    void Update()
+    private void Update()
     {
-        float MovementX = _playerController.horizontalMovement;
-        float MovementY = _playerController.verticalMovement;
-        float MovementJump = _playerRb.velocity.y; 
-        MovementJump = Mathf.Clamp(MovementJump, -4f, 4f);
+        SwitchWeapon();
+    }
 
-        foreach (var weapon in weapons)
+    void SwitchWeapon()
+    {
+        foreach (var key in keyToWeapon.Keys)
         {
-            weapon.transform.localRotation = Quaternion.Euler(MovementJump, MovementY * -3f, MovementX * 3f );
+            if (Input.GetKeyDown(key))
+            {
+                int weaponIndex = keyToWeapon[key];
+
+                if (weaponIndex == 2 && !haveRifle) continue;
+                if (weaponIndex == 3 && !haveGravityGun) continue;
+
+                foreach (var weapon in weapons)
+                {
+                    weapon.SetActive(false);
+                }
+                weapons[weaponIndex].SetActive(true);
+                break;
+            }
         }
     }
-
-
 }
