@@ -5,7 +5,6 @@ public class WeaponManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> weapons;
     public List<Vector3> recoilVectorList;
-    public List<Quaternion> recoilRotationList;
     
 
     public bool haveRifle;

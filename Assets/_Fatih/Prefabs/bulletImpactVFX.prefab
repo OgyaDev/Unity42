@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7354694774736913808}
   - component: {fileID: 5022554962345108665}
   - component: {fileID: 5040707030720879741}
+  - component: {fileID: 8582323169930270309}
   m_Layer: 0
   m_Name: bulletImpactVFX
   m_TagString: Untagged
@@ -111,3 +112,15 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8582323169930270309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5943092145398083209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f39ab3fc02d62ea44b1151e91832b99c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
