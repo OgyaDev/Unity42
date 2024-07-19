@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] LayerMask interactionLayer; // Etkileþim katmaný
     [SerializeField] GameObject bulletImpact; // Kurþun çarptýðýnda kullanýlacak efekt
+    [SerializeField] GameObject hitEffect; // Kurþun çarptýðýnda kullanýlacak efekt
     [SerializeField] Camera cam; // Silahýn kullanacaðý kamera
 
     [Header("General Specs")]
@@ -33,7 +34,6 @@ public class Weapon : MonoBehaviour
     WeaponManager weaponManager;
     Animator anim;
 
-    Vector3 hitPoint;
     private void Start()
     {
         // Maksimum mermi sayýsýný anlýk mermi sayýsýyla eþitle
@@ -80,12 +80,13 @@ public class Weapon : MonoBehaviour
             {
                 case WeaponType.GravityGun:
                     // Gravity Gun: Sað fare tuþuna basarak kuvveti artýr, býrakýldýðýnda ateþle
+                    if (Input.GetKeyDown(KeyCode.Mouse0)) ShootRay(gunRange, bulletImpact);
                     GravityGun();
                     break;
 
                 case WeaponType.Rifle:
                     // Makinalý Tüfek: Sürekli ateþle
-                    ShootRay(gunRange, bulletImpact);
+                    if (Input.GetKey(KeyCode.Mouse0)) ShootRay(gunRange, bulletImpact);
                     if (Input.GetKeyDown(KeyCode.Mouse1)) GetComponent<RifleScope>().Scope();
                     break;
 
@@ -106,7 +107,7 @@ public class Weapon : MonoBehaviour
     void ShootRay(float fireDistance, GameObject bulletImpact)
     {
         // Ateþ ediliyor mu ve yeniden yükleniyor mu kontrol et
-        if (Input.GetKey(KeyCode.Mouse0) && !playerShoots && !reloading)
+        if (!playerShoots && !reloading)
         {
             if (_bullet > 0)
             {
@@ -123,10 +124,14 @@ public class Weapon : MonoBehaviour
                 Vector3 spreadRay = forward + spreadBullet + randomSpread;
 
                 // Bir objeye isabet etti mi?
-                if (Physics.Raycast(cam.transform.position, spreadRay, out RaycastHit hit, fireDistance, interactionLayer))
+                RaycastHit hit;
+                if (Physics.Raycast(cam.transform.position, spreadRay, out hit, fireDistance, interactionLayer))
                 {
                     Instantiate(bulletImpact, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(spreadRay));
-                    hitPoint = hit.point;
+                }
+                if (Physics.Raycast(cam.transform.position, spreadRay, out hit, fireDistance, LayerMask.GetMask("Player")))
+                {
+                    Instantiate(hitEffect, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(spreadRay));
                 }
 
                 // Silahýn rotasyonunu yayýlma açýsýna göre ayarla
@@ -165,15 +170,18 @@ public class Weapon : MonoBehaviour
 
             // Kuvvet yönünü belirle ve tersine çevir
             Vector3 direction = lookDirection * -1f;
+            Debug.Log(playerTransform.position);
             Debug.Log(direction);
 
             Rigidbody rb = playerCont.GetComponent<Rigidbody>();
             rb.AddForce(direction * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
 
-            if (Mathf.Abs(direction.x) < 0.2f || Mathf.Abs(direction.z) < 0.2f)
-            {
-                rb.AddForce(Vector3.up * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
-            }
+            //if (Mathf.Abs(direction.x) < 0.2f || Mathf.Abs(direction.z) < 0.2f)
+            //{
+            //    rb.AddForce(Vector3.up * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
+
+            //}
 
             gravityGunForce = 0f;
         }
