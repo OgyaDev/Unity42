@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+
+public class CameraController : NetworkBehaviour
 {
     public Transform torso; // The upper body torso transform
     public float rotationSpeed = 5f;

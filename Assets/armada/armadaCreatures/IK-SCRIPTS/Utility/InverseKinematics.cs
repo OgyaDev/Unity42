@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class InverseKinematics : MonoBehaviour
+public class InverseKinematics : NetworkBehaviour
 {
     [SerializeField] bool isLeg;
 

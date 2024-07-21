@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 
-public class ProceduralAnimation : MonoBehaviour
+public class ProceduralAnimation : NetworkBehaviour
 { 
     [SerializeField] Transform hips;
     [SerializeField] Transform home;

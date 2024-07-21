@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class ProceduralLegsController : MonoBehaviour
+public class ProceduralLegsController : NetworkBehaviour
 {
     [SerializeField] Transform homesParent;
     [SerializeField] Transform polesParent;
