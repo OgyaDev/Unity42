@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/FastIK/Scripts/FastIK/FastIKLook.cs.meta
+guid: 045843b3ff09845b18198bafb28878fe
+========
+guid: 53007b67d4ef444c1ac28348f9dbd139
+>>>>>>>> oguzhan-photon-fusion:Assets/MultiPlayerScripts/Gameplay/SceneObjects.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

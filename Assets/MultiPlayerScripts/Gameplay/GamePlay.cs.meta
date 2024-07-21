@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/FastIK/Scripts/FastIK/FastIKCCD.cs.meta
+guid: 64b4cb739550b4875abda0f838db60e7
+========
+guid: 84a28a9f0f39e4ba2b40d08a30371a8b
+>>>>>>>> oguzhan-photon-fusion:Assets/MultiPlayerScripts/Gameplay/GamePlay.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
