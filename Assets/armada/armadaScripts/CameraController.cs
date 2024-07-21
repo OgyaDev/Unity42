@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-        public Transform player;
+    public Transform torso; // The upper body torso transform
+    public float rotationSpeed = 5f;
+    
+    private float yaw = 0f;
+    private float pitch = 0f;
 
-        void Update() {
-            transform.position = player.transform.position;
-        }
+    void Update()
+    {
+        // Get mouse input
+        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+        float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+
+        // Update yaw and pitch
+        yaw += mouseX;
+        pitch -= mouseY;
+        pitch = Mathf.Clamp(pitch, -90f, 90f);
+
+        // Rotate the torso
+        torso.localRotation = Quaternion.Euler(pitch, yaw, 0f);
+    }
 }
