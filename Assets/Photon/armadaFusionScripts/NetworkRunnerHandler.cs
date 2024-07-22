@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 public class NetworkRunnerHandler : MonoBehaviour
 {
+    //Photon Fusion app id ile arasında network bağlantısını kuracak elementler Network Runner ve Network Handler
     [SerializeField] 
     NetworkRunner networkRunnerPrefab;
     NetworkRunner networkRunner;
