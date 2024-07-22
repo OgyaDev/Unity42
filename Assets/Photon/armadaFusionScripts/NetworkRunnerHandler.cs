@@ -27,6 +27,11 @@ public class NetworkRunnerHandler : MonoBehaviour
             networkRunner = Instantiate(networkRunnerPrefab);
             networkRunner.name = "Network Runner";
         }
+        
+        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient,"testSession", NetAddress.Any(),SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex), null);
+        
+        
+        Utils.DebugLog("InitializeNetworkRunner Called1");
     }
 
     INetworkSceneManager GetSceneManager(NetworkRunner runner)
@@ -50,12 +55,15 @@ public class NetworkRunnerHandler : MonoBehaviour
         INetworkSceneManager sceneManager = GetSceneManager(networkRunner);
         networkRunner.ProvideInput = true;
         
-        return networkRunner.StartGame(new StartGameArgs(
+        return networkRunner.StartGame(new StartGameArgs
             {
-                GameMode = GameMode,
-                    add
-            }
-        )
+               GameMode = gameMode,
+               Address = address,
+               Scene = scene,
+               SessionName = sessionName,
+               CustomLobbyName = "Lobby IDmiz",
+               SceneManager = sceneManager
+            });
     }
     
 
