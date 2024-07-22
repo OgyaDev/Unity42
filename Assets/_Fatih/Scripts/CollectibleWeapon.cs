@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class CollectibleWeapon : MonoBehaviour
 {
-    [SerializeField] GameObject machineGun;
+    [SerializeField] bool isRifle;
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            machineGun.SetActive(true);
+            WeaponManager weaponManager = other.GetComponentInChildren<WeaponManager>();
+
+            weaponManager.CollectWeapon(isRifle);
             gameObject.SetActive(false);
         }
     }

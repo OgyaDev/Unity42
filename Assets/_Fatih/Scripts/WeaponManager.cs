@@ -5,7 +5,6 @@ public class WeaponManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> weapons;
     public List<Vector3> recoilVectorList;
-    
 
     public bool haveRifle;
     public bool haveGravityGun;
@@ -22,7 +21,13 @@ public class WeaponManager : MonoBehaviour
             { KeyCode.Alpha4, 3 }  // Gravity Gun
         };
 
-        if (haveRifle)
+        
+        if (haveGravityGun)
+        {
+            foreach (var weapon in weapons) { weapon.SetActive(false); }
+            weapons[3].SetActive(true);
+        }
+        else if (haveRifle)
         {
             foreach (var weapon in weapons) { weapon.SetActive(false); }
             weapons[2].SetActive(true);
@@ -60,4 +65,24 @@ public class WeaponManager : MonoBehaviour
             }
         }
     }
+
+    public void CollectWeapon(bool isRifle)
+    {
+        foreach (var weapon in weapons)
+        { weapon.SetActive(false); }
+
+        if (isRifle)
+        {
+            haveRifle = true;
+            weapons[2].SetActive(true);
+            weapons[2].GetComponent<Animator>().SetTrigger("HoldingGun");
+        }
+        else
+        {
+            haveGravityGun = true;
+            weapons[3].SetActive(true);
+            weapons[3].GetComponent<Animator>().SetTrigger("HoldingGun");
+        }
+    }
+
 }
