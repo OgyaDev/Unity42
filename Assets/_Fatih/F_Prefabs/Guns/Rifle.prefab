@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1563137626613911200}
   - component: {fileID: 6201561769003666406}
   - component: {fileID: 5206022903595351574}
+  - component: {fileID: 4914791474742397125}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -192,6 +193,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handPosition: {fileID: 0}
   scopePosition: {fileID: 0}
+--- !u!114 &4914791474742397125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2607646117809452763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ec5998c0c365e4e9015b8f8e8ab894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movingPart: {fileID: 7301901163395989488}
+  targetPosition: {x: 0.04, y: 0, z: 0}
+  speed: 2
 --- !u!1 &3107504469861235637
 GameObject:
   m_ObjectHideFlags: 0

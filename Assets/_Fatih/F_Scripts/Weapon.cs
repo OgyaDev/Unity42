@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.VFX;
 
 public class Weapon : MonoBehaviour
@@ -26,13 +27,16 @@ public class Weapon : MonoBehaviour
     [SerializeField] bool playerCanShoot = true; // Oyuncu ateþ edebilir mi?
     [SerializeField] float firingRate; // Ateþ etme hýzý
     [SerializeField] float fireDistance; // Ateþ etme mesafesi
+    [SerializeField] VisualEffect muzzleVFX;
 
     [Header("Gravity Gun")]
     [SerializeField] float gravityGunForce; // Gravity Gun kuvveti
-    [SerializeField] VisualEffect muzzleVFX;
+    [SerializeField] float laserBeamScale; // Gravity Gun kuvveti
+    [SerializeField] GameObject[] laserBeam;
 
     WeaponManager weaponManager;
     Animator anim;
+    WeaponMovements movementWeapon;
 
     private void OnEnable()
     {
@@ -56,6 +60,7 @@ public class Weapon : MonoBehaviour
         magazineBullet = _bullet;
         startRot = transform.localRotation;
         weaponManager = GetComponentInParent<WeaponManager>();
+        movementWeapon = GetComponent<WeaponMovements>();
     }
 
     private void Update()
@@ -117,7 +122,6 @@ public class Weapon : MonoBehaviour
             {
                 case WeaponType.GravityGun:
                     // Gravity Gun: Sað fare tuþuna basarak kuvveti artýr, býrakýldýðýnda ateþle
-                    // if (Input.GetKeyDown(KeyCode.Mouse0)) Fire();
                     GravityGun();
                     break;
 
@@ -152,12 +156,13 @@ public class Weapon : MonoBehaviour
                 muzzleVFX.Play();
 
                 ShootRay();
+                movementWeapon.SlideMovement();
             }
 
             // Ateþ etmeyi baþlat ve bir süre sonra durdur
             playerShoots = true;
             currentRecoilIndex++;
-            StartCoroutine(BasicTimer("playerShoots", firingRate));
+            StartCoroutine(BasicTimer());
         }
     }
 
@@ -170,15 +175,15 @@ public class Weapon : MonoBehaviour
 
         // Bir objeye isabet etti mi?
         RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, forward, out hit, fireDistance))
+        if (Physics.Raycast(cam.transform.position, spreadRay, out hit, fireDistance))
         {
             if (hit.collider.CompareTag("Player"))
             {
-                Instantiate(hitEffect, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(spreadRay));
+                Instantiate(hitEffect, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(hit.normal));
             }
             else
             {
-                Instantiate(bulletImpact, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(spreadRay));
+                Instantiate(bulletImpact, hit.point + spreadBullet + randomSpread, Quaternion.LookRotation(hit.normal));
             }
         }
     }
@@ -188,25 +193,31 @@ public class Weapon : MonoBehaviour
         Vector3 forward = cam.transform.forward;
         RaycastHit hit;
 
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    if (Physics.Raycast(cam.transform.position, forward, out hit, fireDistance))
-        //    {
-        //        if (hit.collider.CompareTag("Player"))
-        //        {
-        //            Instantiate(hitEffect, hit.point, Quaternion.identity);
-        //        }
-        //        else
-        //        {
-        //            Instantiate(bulletImpact, hit.point, Quaternion.identity);
-        //        }
-        //    }
-        //}
+        if (Input.GetMouseButtonDown(0) && !playerShoots)
+        {
+            playerShoots = true;
+            StartCoroutine(BasicTimer());
+
+            if (Physics.Raycast(cam.transform.position, forward, out hit, fireDistance))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal));
+                }
+            }
+            movementWeapon.SlideMovement();
+        }
 
         if (Input.GetMouseButton(1))
         {
             gravityGunForce += 2.5f * Time.deltaTime;
             gravityGunForce = Mathf.Clamp(gravityGunForce, 0f, 5f);
+            LaserBeam(true);
+            movementWeapon.RotatePortal();
         }
         if (Input.GetMouseButtonUp(1) && gravityGunForce >= 2f)
         {
@@ -227,15 +238,31 @@ public class Weapon : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Player"))
                 {
-                    Instantiate(hitEffect, hit.point, Quaternion.identity);
+                    Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 }
                 else
                 {
-                    Instantiate(bulletImpact, hit.point, Quaternion.identity);
+                    Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal));
                 }
             }
 
+            LaserBeam(false);
             gravityGunForce = 0f;
+        }
+    }
+
+
+    void LaserBeam(bool isActive)
+    {
+        if (isActive)
+        {
+            laserBeam[0].SetActive(true);
+            foreach (var efx in laserBeam) { efx.transform.localScale += new Vector3(0.01f, 0.01f, 0.01f) * Time.deltaTime; }
+        }
+        else
+        {
+            laserBeam[0].SetActive(false);
+            foreach (var efx in laserBeam) { efx.transform.localScale = new(0.01f, 0.01f, 0.01f); }
         }
     }
 
@@ -266,12 +293,11 @@ public class Weapon : MonoBehaviour
         playerCanShoot = true;
     }
 
-    IEnumerator BasicTimer(string variableName, float timer)
+    IEnumerator BasicTimer()
     {
         // Belirtilen süre boyunca bekle ve ilgili deðiþkeni sýfýrla
-        yield return new WaitForSeconds(timer);
-
-        if (variableName == "playerShoots") { playerShoots = false; }
+        yield return new WaitForSeconds(firingRate);
+        playerShoots = false; 
     }
 
     private void OnDisable()
