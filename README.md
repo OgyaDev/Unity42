@@ -1,7 +1,7 @@
 # Takım İsmi
 (U42)
 
-![Çalışma yüzeyi 2](https://github.com/user-attachments/assets/5591722d-2f49-4dda-afa2-7a4d42ae842a)
+![teamlogo](https://github.com/user-attachments/assets/5591722d-2f49-4dda-afa2-7a4d42ae842a)
 
 
 
@@ -82,6 +82,8 @@ Wobbly Mayhem ile arkadaşlarınıza karşı kaotik ve fizik tabanlı PvP düell
 * Sprint Notları: Kalan süreç boyunca yapılacak görevleri gözden geçirdik ve bu sprintte oyunumuzun temel aşamalarını bitirmeyi hedefledik.
 
 * Sprint içinde tamamlanması tahmin edilen puan: 80 Puan
+
+* Puan tamamlama mantığı: Proje boyunca tamamlanması gereken 240 puanlık bir backlog bulunmaktadır. Bu backlog, 3 sprint'e bölünerek her sprint için 80 puan hedeflenmiştir.
 
 * Daily Scrum:  Whatsapp ve Discord üzerinden görüşmelere devam edilmiştir.
   * [Sprint2 Daily Scrum](https://imgur.com/a/8WeYu53)
