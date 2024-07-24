@@ -8,6 +8,7 @@ public class WeaponManager : MonoBehaviour
 
     public bool haveRifle;
     public bool haveGravityGun;
+    int weaponIndex;
 
     Dictionary<KeyCode, int> keyToWeapon;
 
@@ -49,9 +50,9 @@ public class WeaponManager : MonoBehaviour
     {
         foreach (var key in keyToWeapon.Keys)
         {
-            if (Input.GetKeyDown(key))
+            if (Input.GetKeyDown(key) && weaponIndex != keyToWeapon[key])
             {
-                int weaponIndex = keyToWeapon[key];
+                weaponIndex = keyToWeapon[key];
 
                 if (weaponIndex == 2 && !haveRifle) continue;
                 if (weaponIndex == 3 && !haveGravityGun) continue;

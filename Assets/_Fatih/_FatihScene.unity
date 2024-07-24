@@ -645,7 +645,7 @@ MonoBehaviour:
   - {fileID: 5835482720963338860}
   - {fileID: 4965438260533937763}
   - {fileID: 5786097808539153011}
-  - {fileID: 2137344506215858180}
+  - {fileID: 1782807315}
   recoilVectorList:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0.02, z: 0}
@@ -1465,6 +1465,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7086783418321429358}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1782807315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9160270589213444684, guid: 987afe64e5cf0c3498abd666f497061a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7086783418321429358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2027454151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,22 +1849,46 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 2131016670}
+    - target: {fileID: 1646231215105976420, guid: a4c371d5bbbe99640aff251f4bc12584,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 557c09eb39b5aef40abb88bac9287393, type: 2}
     - target: {fileID: 2204720339310941413, guid: a4c371d5bbbe99640aff251f4bc12584,
         type: 3}
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 2204720339310941413, guid: a4c371d5bbbe99640aff251f4bc12584,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791374736052303367, guid: a4c371d5bbbe99640aff251f4bc12584,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3613847066776146997, guid: a4c371d5bbbe99640aff251f4bc12584,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ed10e17535d45b4ca68a1ac68c148fb, type: 2}
+    - target: {fileID: 4559168508927938700, guid: a4c371d5bbbe99640aff251f4bc12584,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 42354cf4bd5725c43b8003c3872fa81f, type: 2}
+    - target: {fileID: 6413691418203990633, guid: a4c371d5bbbe99640aff251f4bc12584,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ed10e17535d45b4ca68a1ac68c148fb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4c371d5bbbe99640aff251f4bc12584, type: 3}
---- !u!1 &2137344506215858180 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3422414944212805387, guid: 987afe64e5cf0c3498abd666f497061a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7086783418321429358}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2802899580160972273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,6 +1958,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rifle
       objectReference: {fileID: 0}
+    - target: {fileID: 2607646117809452763, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3320639666003138406, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 21d15275264e43d4d8e2242e0c30d77d, type: 2}
     - target: {fileID: 4258882965865893283, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1988,11 +2028,26 @@ PrefabInstance:
       propertyPath: scopePosition
       value: 
       objectReference: {fileID: 1183729310}
+    - target: {fileID: 5869676618418455788, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a373eb547f4ae542839cc7ce8e85534, type: 2}
     - target: {fileID: 6201561769003666406, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
         type: 3}
       propertyPath: cam
       value: 
       objectReference: {fileID: 2131016670}
+    - target: {fileID: 6704857942177158221, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a373eb547f4ae542839cc7ce8e85534, type: 2}
+    - target: {fileID: 9130591723835849719, guid: 70b7f97bc8aa09742b7b5a4fe9142114,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2409,6 +2464,16 @@ PrefabInstance:
       propertyPath: laserBeam.Array.data[7]
       value: 
       objectReference: {fileID: 487618914}
+    - target: {fileID: 2879670240840359771, guid: 987afe64e5cf0c3498abd666f497061a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.797
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986983248498159758, guid: 987afe64e5cf0c3498abd666f497061a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 03995fad145293e41a094d61b31d5478, type: 2}
     - target: {fileID: 8973468074878174023, guid: 987afe64e5cf0c3498abd666f497061a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2463,6 +2528,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GravityGun_
+      objectReference: {fileID: 0}
+    - target: {fileID: 9160270589213444684, guid: 987afe64e5cf0c3498abd666f497061a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

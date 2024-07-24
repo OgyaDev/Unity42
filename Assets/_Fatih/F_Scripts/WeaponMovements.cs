@@ -48,4 +48,9 @@ public class WeaponMovements : MonoBehaviour
         // Tam olarak baþlangýç konumuna yerleþtirme
         movingPart.localPosition = initialPosition;
     }
+
+    private void OnDisable()
+    {
+        movingPart.localPosition = initialPosition;
+    }
 }
