@@ -42,7 +42,7 @@ public class Weapon : MonoBehaviour
     {
         anim = GetComponent<Animator>();
 
-        if (_bullet <= 0)
+        if (_bullet <= 0 && spareBullet > 0)
         {
             reloading = true;
             anim.SetTrigger("Reload");
@@ -52,6 +52,7 @@ public class Weapon : MonoBehaviour
             anim.SetTrigger("HoldingGun");
             playerCanShoot = false;
         }
+        weaponManager.TextBullentCount(_bullet, spareBullet);
     }
 
     private void Start()
@@ -153,6 +154,7 @@ public class Weapon : MonoBehaviour
             {
                 // Mermiyi azalt
                 _bullet--;
+                weaponManager.TextBullentCount(_bullet, spareBullet);
                 muzzleVFX.Play();
 
                 ShootRay();
@@ -169,9 +171,11 @@ public class Weapon : MonoBehaviour
     void ShootRay()
     {
         Vector3 forward = cam.transform.forward;
-        Vector3 randomSpread = new(Random.Range(-0.03f, 0.03f), Random.Range(0, 0.015f));
+        Vector3 randomSpread = new(Random.Range(-0.03f, 0.03f), 0f);
         Vector3 spreadBullet = cam.transform.TransformDirection(weaponManager.recoilVectorList[currentRecoilIndex]);
-        Vector3 spreadRay = forward + spreadBullet + randomSpread;
+
+        Vector3 spreadRay = forward + spreadBullet;
+        if (currentRecoilIndex != 0) spreadRay.x += randomSpread.x;
 
         // Bir objeye isabet etti mi?
         RaycastHit hit;
@@ -229,10 +233,7 @@ public class Weapon : MonoBehaviour
 
             // Kuvvet yönünü belirle ve tersine çevir
             Vector3 direction = lookDirection * -1f;
-
-            Rigidbody rb = playerCont.GetComponent<Rigidbody>();
-            rb.AddForce(Vector3.up * gravityGunForce * 1500f * Time.deltaTime, ForceMode.Impulse);
-            rb.AddForce(direction * gravityGunForce * 750f * Time.deltaTime, ForceMode.Impulse);
+            
 
             if (Physics.Raycast(cam.transform.position, forward, out hit, fireDistance))
             {
@@ -243,6 +244,10 @@ public class Weapon : MonoBehaviour
                 else
                 {
                     Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal));
+
+                    Rigidbody rb = playerCont.GetComponent<Rigidbody>();
+                    rb.AddForce(Vector3.up * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
+                    rb.AddForce(direction * gravityGunForce * 500f * Time.deltaTime, ForceMode.Impulse);
                 }
             }
 
@@ -257,7 +262,21 @@ public class Weapon : MonoBehaviour
         if (isActive)
         {
             laserBeam[0].SetActive(true);
-            foreach (var efx in laserBeam) { efx.transform.localScale += new Vector3(0.01f, 0.01f, 0.01f) * Time.deltaTime; }
+            Vector3 maxScale = new Vector3(0.075f, 0.075f, 0.075f);
+            Vector3 minScale = new Vector3(0.01f, 0.01f, 0.01f);
+
+            foreach (var efx in laserBeam)
+            {
+                Vector3 currentScale = efx.transform.localScale;
+
+                currentScale += new Vector3(0.03f, 0.03f, 0.03f) * Time.deltaTime;
+
+                currentScale.x = Mathf.Clamp(currentScale.x, minScale.x, maxScale.x);
+                currentScale.y = Mathf.Clamp(currentScale.y, minScale.y, maxScale.y);
+                currentScale.z = Mathf.Clamp(currentScale.z, minScale.z, maxScale.z);
+
+                efx.transform.localScale = currentScale;
+            }
         }
         else
         {
@@ -286,6 +305,7 @@ public class Weapon : MonoBehaviour
 
         reloading = false;
         playerCanShoot = true;
+        weaponManager.TextBullentCount(_bullet, spareBullet);
     }
 
     public void HoldingGun()

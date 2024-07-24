@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class WeaponManager : MonoBehaviour
     int weaponIndex;
 
     Dictionary<KeyCode, int> keyToWeapon;
+
+    [SerializeField] TextMeshProUGUI bulletText;
 
     private void Start()
     {
@@ -84,6 +87,11 @@ public class WeaponManager : MonoBehaviour
             weapons[3].SetActive(true);
             weapons[3].GetComponent<Animator>().SetTrigger("HoldingGun");
         }
+    }
+
+    public void TextBullentCount(int _Bullet, int spareBullet)
+    {
+        bulletText.text = _Bullet.ToString() + " / " + spareBullet.ToString();
     }
 
 }
