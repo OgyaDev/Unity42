@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7301901163395989488}
   - component: {fileID: 4289322789484765169}
   - component: {fileID: 2568490042015150766}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6201561769003666406}
   - component: {fileID: 5206022903595351574}
   - component: {fileID: 4914791474742397125}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,6 +118,7 @@ Transform:
   m_Children:
   - {fileID: 7616562930960977167}
   - {fileID: 5839167313652727465}
+  - {fileID: 6136424039286072959}
   - {fileID: 2724040543103157025}
   - {fileID: 7301901163395989488}
   - {fileID: 912911816009066188}
@@ -166,7 +167,10 @@ MonoBehaviour:
     type: 3}
   hitEffect: {fileID: 2254961100031153928, guid: 137bde248953a9045b59f3cee49408e6,
     type: 3}
+  magazineOnGun: {fileID: 5193841945087398142}
+  leftHandMagazine: {fileID: 3488121158379542200}
   cam: {fileID: 0}
+  muzzleVFX: {fileID: 3620690691737114384}
   Damage: 0
   spareBullet: 90
   magazineBullet: 0
@@ -178,7 +182,7 @@ MonoBehaviour:
   firingRate: 0.1
   fireDistance: 1000
   gravityGunForce: 0
-  muzzleVFX: {fileID: 3620690691737114384}
+  laserBeam: []
 --- !u!114 &5206022903595351574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingPart: {fileID: 7301901163395989488}
+  donenmec: {fileID: 0}
   targetPosition: {x: 0.04, y: 0, z: 0}
   speed: 2
 --- !u!1 &3107504469861235637
@@ -219,7 +224,7 @@ GameObject:
   - component: {fileID: 2724040543103157025}
   - component: {fileID: 6264630841522675767}
   - component: {fileID: 6704857942177158221}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +274,90 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b356d31803b23a4ebbf683a67656404, type: 2}
+  - {fileID: 2100000, guid: 7a373eb547f4ae542839cc7ce8e85534, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3488121158379542200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6136424039286072959}
+  - component: {fileID: 4474240092756044164}
+  - component: {fileID: 4223171894502212292}
+  m_Layer: 7
+  m_Name: LeftHandMagazine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6136424039286072959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488121158379542200}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.137, y: -0.033581052, z: -0.173}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4258882965865893283}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &4474240092756044164
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488121158379542200}
+  m_Mesh: {fileID: -4684380829729525434, guid: e00b27b8d9c47264ab84203ddf941b2c, type: 3}
+--- !u!23 &4223171894502212292
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488121158379542200}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 19808b0cc8eed9c4e8448e593ff2f6fe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -302,7 +390,7 @@ GameObject:
   - component: {fileID: 3906161957665407828}
   - component: {fileID: 2291666838209939209}
   - component: {fileID: 7381268242519193569}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +473,7 @@ GameObject:
   - component: {fileID: 912911816009066188}
   - component: {fileID: 5957576978288318398}
   - component: {fileID: 3320639666003138406}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +523,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b356d31803b23a4ebbf683a67656404, type: 2}
+  - {fileID: 2100000, guid: 21d15275264e43d4d8e2242e0c30d77d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -468,7 +556,7 @@ GameObject:
   - component: {fileID: 5839167313652727465}
   - component: {fileID: 7167361963804318603}
   - component: {fileID: 4877617828278406075}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +639,7 @@ GameObject:
   - component: {fileID: 7616562930960977167}
   - component: {fileID: 8935522402725436969}
   - component: {fileID: 1910338678248172162}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -635,7 +723,7 @@ GameObject:
   - component: {fileID: 6414320435555125586}
   - component: {fileID: 6205733847946629939}
   - component: {fileID: 5869676618418455788}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_02_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -685,7 +773,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f54a93ae3a62b949a1597cd4f4792ba, type: 2}
+  - {fileID: 2100000, guid: 7a373eb547f4ae542839cc7ce8e85534, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -718,7 +806,7 @@ GameObject:
   - component: {fileID: 7675786615425914730}
   - component: {fileID: 3620690691737114384}
   - component: {fileID: 9130591723835849719}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MuzzleFlashRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

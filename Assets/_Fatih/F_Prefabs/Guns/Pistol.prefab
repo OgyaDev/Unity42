@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6548008730229866648}
   - component: {fileID: 6852031985500121559}
   - component: {fileID: 2791374736052303367}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MuzzleFlashPistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 235623263730771921}
   - component: {fileID: 4667688522545301235}
   - component: {fileID: 4559168508927938700}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f54a93ae3a62b949a1597cd4f4792ba, type: 2}
+  - {fileID: 2100000, guid: 42354cf4bd5725c43b8003c3872fa81f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 1432634057717511392}
   - component: {fileID: 6189217019139004079}
   - component: {fileID: 6413691418203990633}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_01_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19808b0cc8eed9c4e8448e593ff2f6fe, type: 2}
+  - {fileID: 2100000, guid: 1ed10e17535d45b4ca68a1ac68c148fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 3756153616498925965}
   - component: {fileID: 622306165766787476}
   - component: {fileID: 7736966302537555837}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,6 +314,7 @@ Transform:
   - {fileID: 1432634057717511392}
   - {fileID: 5631312512893869355}
   - {fileID: 5260537822989574155}
+  - {fileID: 144202327274934375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &3756153616498925965
@@ -357,7 +358,10 @@ MonoBehaviour:
     type: 3}
   hitEffect: {fileID: 2254961100031153928, guid: 137bde248953a9045b59f3cee49408e6,
     type: 3}
+  magazineOnGun: {fileID: 6026168472017264303}
+  leftHandMagazine: {fileID: 6090934695584237156}
   cam: {fileID: 0}
+  muzzleVFX: {fileID: 6852031985500121559}
   Damage: 0
   spareBullet: 72
   magazineBullet: 0
@@ -369,7 +373,7 @@ MonoBehaviour:
   firingRate: 0.17
   fireDistance: 1000
   gravityGunForce: 0
-  muzzleVFX: {fileID: 6852031985500121559}
+  laserBeam: []
 --- !u!114 &7736966302537555837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingPart: {fileID: 1432634057717511392}
+  donenmec: {fileID: 0}
   targetPosition: {x: 0.04, y: 0, z: 0}
   speed: 1
 --- !u!1 &6026168472017264303
@@ -396,7 +401,7 @@ GameObject:
   - component: {fileID: 5260537822989574155}
   - component: {fileID: 1384410754045543633}
   - component: {fileID: 3613847066776146997}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_01_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +451,90 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21d15275264e43d4d8e2242e0c30d77d, type: 2}
+  - {fileID: 2100000, guid: 1ed10e17535d45b4ca68a1ac68c148fb, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6090934695584237156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 144202327274934375}
+  - component: {fileID: 4876963964114669397}
+  - component: {fileID: 6275098365599731930}
+  m_Layer: 7
+  m_Name: LeftHandMagazine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &144202327274934375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090934695584237156}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.1126}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 339919970119512643}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &4876963964114669397
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090934695584237156}
+  m_Mesh: {fileID: -5433442519505195169, guid: fdf00ae655c6f9d4abac02c38bd47b3e, type: 3}
+--- !u!23 &6275098365599731930
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6090934695584237156}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 257
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1ed10e17535d45b4ca68a1ac68c148fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -479,7 +567,7 @@ GameObject:
   - component: {fileID: 5631312512893869355}
   - component: {fileID: 1212937287755917909}
   - component: {fileID: 1646231215105976420}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapon_01_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,7 +617,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7b356d31803b23a4ebbf683a67656404, type: 2}
+  - {fileID: 2100000, guid: 557c09eb39b5aef40abb88bac9287393, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

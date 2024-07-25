@@ -21,4 +21,10 @@ public class RifleScope : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        scopeIsOpened = true;
+        Scope();
+    }
+
 }

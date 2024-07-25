@@ -92,6 +92,10 @@ public class WeaponManager : MonoBehaviour
     public void TextBullentCount(int _Bullet, int spareBullet)
     {
         bulletText.text = _Bullet.ToString() + " / " + spareBullet.ToString();
+        if (weaponIndex == 3)
+        {  bulletText.gameObject.SetActive(false);  }
+        else
+        {  bulletText.gameObject.SetActive(true);  }
     }
 
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1073972831805558685}
   - component: {fileID: 2677824028569866652}
   - component: {fileID: 1988369423464948669}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.063
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7923964875956192378}
   - component: {fileID: 1116342772465482997}
   - component: {fileID: 1290114097039673597}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: nisangah.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 7336185730036997888}
   - component: {fileID: 2100623108574032297}
   - component: {fileID: 7973683214959049065}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GravityGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,10 @@ MonoBehaviour:
     type: 3}
   hitEffect: {fileID: 2254961100031153928, guid: 137bde248953a9045b59f3cee49408e6,
     type: 3}
+  magazineOnGun: {fileID: 0}
+  leftHandMagazine: {fileID: 0}
   cam: {fileID: 0}
+  muzzleVFX: {fileID: 0}
   Damage: 0
   spareBullet: 90
   magazineBullet: 0
@@ -248,9 +251,7 @@ MonoBehaviour:
   playerCanShoot: 1
   firingRate: 0.1
   fireDistance: 1000
-  muzzleVFX: {fileID: 0}
   gravityGunForce: 0
-  laserBeamScale: 0
   laserBeam:
   - {fileID: 0}
   - {fileID: 0}
@@ -268,7 +269,7 @@ GameObject:
   - component: {fileID: 8713976740738706054}
   - component: {fileID: 2820120766278521170}
   - component: {fileID: 4306021661729417479}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.074
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +356,7 @@ GameObject:
   - component: {fileID: 370522227307462073}
   - component: {fileID: 484827799484832963}
   - component: {fileID: 4207654181991388207}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: sayac.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,13 +440,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8973468074878174023}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GravityGun_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8973468074878174023
 Transform:
   m_ObjectHideFlags: 0
@@ -710,22 +711,47 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ebfaeb0790b04b342ac06b6dfa827bb1, type: 2}
+      objectReference: {fileID: 2100000, guid: 03995fad145293e41a094d61b31d5478, type: 2}
     - target: {fileID: 919132149155446097, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
         type: 3}
       propertyPath: m_Name
       value: Donenmec
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1692089438857176048, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2638114809506583762, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ebfaeb0790b04b342ac06b6dfa827bb1, type: 2}
+    - target: {fileID: 3126009640292894547, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5490763570173911101, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0b1dd83c4405cb542a8cbc43b5b786db, type: 2}
+    - target: {fileID: 5974791646355392416, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6173112545962212635, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8951995363584714190, guid: 87d591350cb2f7a48ad4ee0efd7e2ad6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -803,6 +829,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2435000717599151344, guid: 0dc6a3a04e04b3446a417d9f67263834,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435000717599151344, guid: 0dc6a3a04e04b3446a417d9f67263834,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -869,7 +900,7 @@ PrefabInstance:
     - target: {fileID: 5926056529157286267, guid: 0dc6a3a04e04b3446a417d9f67263834,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.397
+      value: -4.797
       objectReference: {fileID: 0}
     - target: {fileID: 5926056529157286267, guid: 0dc6a3a04e04b3446a417d9f67263834,
         type: 3}
@@ -910,6 +941,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8399808751133581816, guid: 0dc6a3a04e04b3446a417d9f67263834,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490852157016691667, guid: 0dc6a3a04e04b3446a417d9f67263834,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077410546870519724, guid: 0dc6a3a04e04b3446a417d9f67263834,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

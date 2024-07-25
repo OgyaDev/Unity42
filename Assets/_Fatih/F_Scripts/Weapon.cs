@@ -14,7 +14,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] LayerMask interactionLayer; // Etkileþim katmaný
     [SerializeField] GameObject bulletImpact; // Kurþun çarptýðýnda kullanýlacak efekt
     [SerializeField] GameObject hitEffect; // Kurþun çarptýðýnda kullanýlacak efekt
+    [SerializeField] GameObject magazineOnGun, leftHandMagazine;
     [SerializeField] Camera cam; // Silahýn kullanacaðý kamera
+    [SerializeField] VisualEffect muzzleVFX;
 
     [Header("General Specs")]
     [SerializeField] int Damage; // Silahýn verdiði hasar
@@ -27,11 +29,10 @@ public class Weapon : MonoBehaviour
     [SerializeField] bool playerCanShoot = true; // Oyuncu ateþ edebilir mi?
     [SerializeField] float firingRate; // Ateþ etme hýzý
     [SerializeField] float fireDistance; // Ateþ etme mesafesi
-    [SerializeField] VisualEffect muzzleVFX;
+    
 
     [Header("Gravity Gun")]
     [SerializeField] float gravityGunForce; // Gravity Gun kuvveti
-    [SerializeField] float laserBeamScale; // Gravity Gun kuvveti
     [SerializeField] GameObject[] laserBeam;
 
     WeaponManager weaponManager;
@@ -76,6 +77,8 @@ public class Weapon : MonoBehaviour
         if (_bullet != magazineBullet && !reloading && spareBullet > 0 && (Input.GetKeyDown(KeyCode.R) || _bullet <= 0))
         {
             reloading = true;
+            leftHandMagazine.SetActive(true);
+            magazineOnGun.SetActive(false);
             anim.SetTrigger("Reload");
         }
 
@@ -306,6 +309,9 @@ public class Weapon : MonoBehaviour
         reloading = false;
         playerCanShoot = true;
         weaponManager.TextBullentCount(_bullet, spareBullet);
+
+        leftHandMagazine.SetActive(false);
+        magazineOnGun.SetActive(true);
     }
 
     public void HoldingGun()
