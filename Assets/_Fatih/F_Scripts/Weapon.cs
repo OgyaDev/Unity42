@@ -43,17 +43,17 @@ public class Weapon : MonoBehaviour
     {
         anim = GetComponent<Animator>();
 
-        if (_bullet <= 0 && spareBullet > 0)
-        {
-            reloading = true;
-            anim.SetTrigger("Reload");
-        }
-        else
-        {
-            anim.SetTrigger("HoldingGun");
-            playerCanShoot = false;
-        }
-        weaponManager.TextBullentCount(_bullet, spareBullet);
+        //if (_bullet <= 0 && spareBullet > 0)
+        //{
+        //    reloading = true;
+        //    anim.SetTrigger("Reload");
+        //}
+        //else
+        //{
+        //    anim.SetTrigger("HoldingGun");
+        //    playerCanShoot = false;
+        //}
+      //  weaponManager.TextBullentCount(_bullet, spareBullet);
     }
 
     private void Start()

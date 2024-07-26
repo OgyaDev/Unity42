@@ -25,18 +25,17 @@ public class WeaponManager : MonoBehaviour
             { KeyCode.Alpha4, 3 }  // Gravity Gun
         };
 
-        
+        if (haveRifle)
+        {
+            foreach (var weapon in weapons) { weapon.SetActive(false); }
+            weapons[2].SetActive(true);
+        }
         if (haveGravityGun)
         {
             foreach (var weapon in weapons) { weapon.SetActive(false); }
             weapons[3].SetActive(true);
         }
-        else if (haveRifle)
-        {
-            foreach (var weapon in weapons) { weapon.SetActive(false); }
-            weapons[2].SetActive(true);
-        }
-        else
+        if(!haveRifle && !haveGravityGun)
         {
             foreach (var weapon in weapons) { weapon.SetActive(false); }
             weapons[1].SetActive(true);
