@@ -673,7 +673,7 @@ MonoBehaviour:
   rotationForce: 10
   balanceForce: 200
   jumpForce: 150
-  speedMultiplier: 1.5
+  speedMultiplier: 3
   maxVelocityChange: 1
   torso: {fileID: 6834088293693056532}
   mouseX: 0
