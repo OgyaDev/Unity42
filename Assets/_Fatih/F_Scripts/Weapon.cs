@@ -1,9 +1,11 @@
 using System.Collections;
+using System.Globalization;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.VFX;
 
-public class Weapon : MonoBehaviour
+public class Weapon : NetworkBehaviour
 {
     // Silah türlerini belirten bir enum
     public enum WeaponType { Knife, Pistol, Rifle, GravityGun };
@@ -17,6 +19,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] GameObject magazineOnGun, leftHandMagazine;
     [SerializeField] Camera cam; // Silahýn kullanacaðý kamera
     [SerializeField] VisualEffect muzzleVFX;
+    [SerializeField] Rigidbody headRb;
 
     [Header("General Specs")]
     [SerializeField] int Damage; // Silahýn verdiði hasar
@@ -29,7 +32,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] bool playerCanShoot = true; // Oyuncu ateþ edebilir mi?
     [SerializeField] float firingRate; // Ateþ etme hýzý
     [SerializeField] float fireDistance; // Ateþ etme mesafesi
-    
+
 
     [Header("Gravity Gun")]
     [SerializeField] float gravityGunForce; // Gravity Gun kuvveti
@@ -43,17 +46,17 @@ public class Weapon : MonoBehaviour
     {
         anim = GetComponent<Animator>();
 
-        //if (_bullet <= 0 && spareBullet > 0)
-        //{
-        //    reloading = true;
-        //    anim.SetTrigger("Reload");
-        //}
-        //else
-        //{
-        //    anim.SetTrigger("HoldingGun");
-        //    playerCanShoot = false;
-        //}
-      //  weaponManager.TextBullentCount(_bullet, spareBullet);
+        if (_bullet <= 0 && spareBullet > 0)
+        {
+            reloading = true;
+            anim.SetTrigger("Reload");
+        }
+        else
+        {
+            anim.SetTrigger("HoldingGun");
+            playerCanShoot = false;
+        }
+        weaponManager.TextBullentCount(_bullet, spareBullet);
     }
 
     private void Start()
@@ -68,7 +71,7 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         // Oyuncu ateþ edebilir mi kontrol et ve ateþle
-        if (playerCanShoot)
+        if (IsOwner && playerCanShoot)
         {
             SwitchWeapon();
         }
@@ -86,23 +89,20 @@ public class Weapon : MonoBehaviour
         {
             Invoke(nameof(RecoilLower), firingRate * 2);
         }
-
     }
 
     private void LateUpdate()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && playerShoots && !reloading)
+        if (IsOwner && Input.GetKey(KeyCode.Mouse0) && playerShoots && !reloading)
         {
             if (_bullet > 0)
             {
-                {
-                    // Silahýn rotasyonunu yayýlma açýsýna göre ayarla
-                    Vector3 quaRot = new(0f, weaponManager.recoilVectorList[currentRecoilIndex].x * 100f,
-                        weaponManager.recoilVectorList[currentRecoilIndex].y * -100f);
-                    Quaternion spreadRotation = Quaternion.Euler(quaRot);
+                // Silahýn rotasyonunu yayýlma açýsýna göre ayarla
+                Vector3 quaRot = new(0f, weaponManager.recoilVectorList[currentRecoilIndex].x * 100f,
+                    weaponManager.recoilVectorList[currentRecoilIndex].y * -100f);
+                Quaternion spreadRotation = Quaternion.Euler(quaRot);
 
-                    transform.localRotation = Quaternion.Slerp(transform.localRotation, transform.localRotation * spreadRotation, firingRate * 2);
-                }
+                transform.localRotation = Quaternion.Slerp(transform.localRotation, transform.localRotation * spreadRotation, firingRate * 2);
             }
         }
         else
@@ -160,14 +160,30 @@ public class Weapon : MonoBehaviour
                 weaponManager.TextBullentCount(_bullet, spareBullet);
                 muzzleVFX.Play();
 
-                ShootRay();
-                movementWeapon.SlideMovement();
+                FireServerRpc();
             }
 
             // Ateþ etmeyi baþlat ve bir süre sonra durdur
             playerShoots = true;
             currentRecoilIndex++;
             StartCoroutine(BasicTimer());
+        }
+    }
+
+    [ServerRpc]
+    void FireServerRpc()
+    {
+        FireClientRpc();
+    }
+
+    [ClientRpc]
+    void FireClientRpc()
+    {
+        if (!IsOwner)
+        {
+            muzzleVFX.Play();
+            ShootRay();
+            movementWeapon.SlideMovement();
         }
     }
 
@@ -228,7 +244,7 @@ public class Weapon : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(1) && gravityGunForce >= 2f)
         {
-            PlayerControllerF playerCont = GetComponentInParent<PlayerControllerF>();
+            PlayerController2 playerCont = GetComponentInParent<PlayerController2>();
 
             // Oyuncunun bakýþ yönünü al
             Transform playerTransform = playerCont.gameObject.transform;
@@ -236,7 +252,7 @@ public class Weapon : MonoBehaviour
 
             // Kuvvet yönünü belirle ve tersine çevir
             Vector3 direction = lookDirection * -1f;
-            
+
 
             if (Physics.Raycast(cam.transform.position, forward, out hit, fireDistance))
             {
@@ -248,9 +264,8 @@ public class Weapon : MonoBehaviour
                 {
                     Instantiate(bulletImpact, hit.point, Quaternion.LookRotation(hit.normal));
 
-                    Rigidbody rb = playerCont.GetComponent<Rigidbody>();
-                    rb.AddForce(Vector3.up * gravityGunForce * 1000f * Time.deltaTime, ForceMode.Impulse);
-                    rb.AddForce(direction * gravityGunForce * 500f * Time.deltaTime, ForceMode.Impulse);
+                    headRb.AddForce(Vector3.up * gravityGunForce * 10000f * Time.deltaTime, ForceMode.Impulse);
+                    headRb.AddForce(direction * gravityGunForce * 5000f * Time.deltaTime, ForceMode.Impulse);
                 }
             }
 
@@ -323,7 +338,7 @@ public class Weapon : MonoBehaviour
     {
         // Belirtilen süre boyunca bekle ve ilgili deðiþkeni sýfýrla
         yield return new WaitForSeconds(firingRate);
-        playerShoots = false; 
+        playerShoots = false;
     }
 
     private void OnDisable()
