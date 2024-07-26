@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerController : MonoBehaviour
+    
+
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField] Transform cam;
 
@@ -15,8 +19,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float feetGroundCheckDist;
 
-    ConfigurableJoint hipsCj;
-    Rigidbody hipsRb;
+    [SerializeField] ConfigurableJoint hipsCj;
+    [SerializeField] Rigidbody hipsRb;
 
     LayerMask groundMask;
 
@@ -26,7 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float speedMultiplier = 1.5f;
     [SerializeField] float maxVelocityChange;
-
+    
     bool isGrounded;
     bool isDead = false;
 
@@ -38,8 +42,32 @@ public class PlayerController : MonoBehaviour
     JointDrive hipsInAirDrive;
 
     [SerializeField] float airSpring;
+
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            enabled = false;
+            return;
+            
+        }
+        
+    }
+
     private void Start()
     {
+        if (!IsOwner)
+        {
+            InitializeComponents();
+            
+        }
+        
+    }
+
+    async void  InitializeComponents()
+    {
+        
         jds = new JointDrive[cjs.Length];
 
         inAirDrive.maximumForce = Mathf.Infinity;
@@ -48,21 +76,29 @@ public class PlayerController : MonoBehaviour
         hipsInAirDrive.maximumForce = Mathf.Infinity;
         hipsInAirDrive.positionSpring = 0;
 
-        hipsRb = GetComponent<Rigidbody>();
-        hipsCj = GetComponent<ConfigurableJoint>();
+        if (hipsRb == null)
+        {
+            hipsRb =  GetComponent<Rigidbody>();
+        }
 
-        //Saves the initial drives of each configurable joint
-        for(int i = 0; i < cjs.Length; i++)
+        if (hipsCj == null)
+        {
+            hipsCj = GetComponent<ConfigurableJoint>();
+        }
+
+        for (int i = 0; i < cjs.Length; i++)
         {
             jds[i] = cjs[i].angularXDrive;
         }
 
         groundMask = LayerMask.GetMask("Ground");
-        
     }
+
+    
     void Update()
     {
-        if (!isDead)
+   
+        if (IsOwner && !isDead)
         {
             proceduralLegs.GroundHomeParent();
             CheckGrounded();
@@ -77,25 +113,21 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (isGrounded && !isDead)
+        if (isGrounded && !isDead && IsOwner)
         {
             StabilizeBody();
             Move();
         }    
     }
-
+    
     void SetPlayerInputs()
     {
+        
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        
     }
-
-    void StabilizeBody()
-    {
-        headRb.AddForce(Vector3.up * balanceForce);
-        hipsRb.AddForce(Vector3.down * balanceForce);
-    }
-
+   
     void Move()
     {
         Vector3 move = new Vector3(horizontal, 0f, vertical);
@@ -135,7 +167,16 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
+    void StabilizeBody()
+    {
+        headRb.AddForce(Vector3.up * balanceForce);
+        hipsRb.AddForce(Vector3.down * balanceForce);
+    }
+    
+   
+    
+    
+    
     void CheckGrounded()
     {
         bool leftCheck = false;

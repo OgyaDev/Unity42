@@ -2,24 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class UI : MonoBehaviour
 {
     
       void Start()
     {
-        LockCursor();
+       LockCursor();
     }
 
 void Update()
     {
-         if (Input.GetMouseButtonDown(0))
-        {
-            LockCursor();
-        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+       {
+          LockCursor();
+       }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             UnlockCursor();
         }
+
     }
     
    void LockCursor()

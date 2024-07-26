@@ -1,9 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : NetworkBehaviour
 {
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     public Transform torso; // The upper body torso transform
     public float rotationSpeed = 5f;
     
