@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Main Scenes/Test_RagDolls.unity
+    guid: 5f773ea780b50a2428718241249466e4
+  - enabled: 0
+    path: Assets/Main Scenes/UI_MainMenu.unity
+    guid: c460605158ae18341a3915ad9805c42f
   m_configObjects: {}
