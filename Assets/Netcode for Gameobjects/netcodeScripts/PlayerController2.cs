@@ -26,17 +26,22 @@ public class PlayerController2 : NetworkBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationForce;
     [SerializeField] float balanceForce;
+
+    [SerializeField] private int maxJumps = 2;
+    [SerializeField] private float jumpCoolDown = 5f;
+    private int currentJumps = 0;
+    private float lastJumpTime = 0f;
     [SerializeField] float jumpForce;
     [SerializeField] float speedMultiplier = 1.5f;
     [SerializeField] float maxVelocityChange;
-   
+
     public Transform torso;
     public float mouseX;
     public float mouseY;
     public float rotationSpeed = 5f;
     private float yaw = 0f;
     private float pitch = 0f;
-    
+
     bool isGrounded;
     bool isDead = false;
 
@@ -56,9 +61,10 @@ public class PlayerController2 : NetworkBehaviour
             enabled = false;
             return;
         }
+
         InitializeComponents();
     }
-   
+
     private void Start()
     {
         if (IsOwner)
@@ -106,7 +112,7 @@ public class PlayerController2 : NetworkBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.V))
             StabilizeBody();
         if (!isDead && IsOwner)
         {
@@ -114,11 +120,12 @@ public class PlayerController2 : NetworkBehaviour
             CheckGrounded();
             SetPlayerInputs();
 
+            DoubleJump();
             if (isGrounded)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                    Jump();
+                currentJumps = 0;
             }
+
         }
     }
 
@@ -130,64 +137,59 @@ public class PlayerController2 : NetworkBehaviour
             Move();
         }
     }
-    
-   void Move()
-{
-    // Update yaw and pitch
-    yaw += mouseX * rotationSpeed;
-    pitch -= mouseY * rotationSpeed;
-    pitch = Mathf.Clamp(pitch, -90f, 90f);
 
-    // Rotate torso based on mouse input
-    torso.localRotation = Quaternion.Euler(pitch, yaw, 0f);
-
-    // Calculate movement direction based on camera's forward direction
-    Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
-    Vector3 rotatedMoveDirection = cam.TransformDirection(moveDirection);
-    rotatedMoveDirection.y = 0f; // Keep movement strictly horizontal
-
-    // If there's any movement input
-    if (moveDirection.magnitude > 0.1f)
+    void Move()
     {
-        // Calculate target rotation
-        Quaternion targetRotation = Quaternion.LookRotation(rotatedMoveDirection);
+        // Update yaw and pitch
+        yaw += mouseX * rotationSpeed;
+        pitch -= mouseY * rotationSpeed;
+        pitch = Mathf.Clamp(pitch, -90f, 90f);
 
-        // Rotate the character smoothly towards the target rotation
-        hipsRb.MoveRotation(Quaternion.RotateTowards(hipsRb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
+        // Rotate torso based on mouse input
+        torso.localRotation = Quaternion.Euler(pitch, yaw, 0f);
 
-        // Calculate and apply movement force
-        Vector3 targetVelocity = rotatedMoveDirection * moveSpeed;
-        Vector3 velocityChange = targetVelocity - hipsRb.velocity;
-        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-        velocityChange.y = 0; // Prevent vertical velocity change
+        // Calculate movement direction based on camera's forward direction
+        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 rotatedMoveDirection = cam.TransformDirection(moveDirection);
+        rotatedMoveDirection.y = 0f; // Keep movement strictly horizontal
 
-        hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
+        // If there's any movement input
+        if (moveDirection.magnitude > 0.1f)
+        {
+            // Calculate target rotation
+            Quaternion targetRotation = Quaternion.LookRotation(rotatedMoveDirection);
+
+            // Rotate the character smoothly towards the target rotation
+            hipsRb.MoveRotation(Quaternion.RotateTowards(hipsRb.rotation, targetRotation,
+                rotationSpeed * Time.fixedDeltaTime));
+
+            // Calculate and apply movement force
+            Vector3 targetVelocity = rotatedMoveDirection * moveSpeed;
+            Vector3 velocityChange = targetVelocity - hipsRb.velocity;
+            velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+            velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+            velocityChange.y = 0; // Prevent vertical velocity change
+
+            hipsRb.AddForce(velocityChange, ForceMode.VelocityChange);
+        }
+
+        // Apply balance forces
+        headRb.AddForce(Vector3.up * balanceForce);
+        hipsRb.AddForce(Vector3.down * balanceForce);
+
+
+        // Adjust speed if running
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
+        {
+            Vector3 runVelocity = rotatedMoveDirection * (moveSpeed * speedMultiplier);
+            Vector3 runVelocityChange = runVelocity - hipsRb.velocity;
+            runVelocityChange.x = Mathf.Clamp(runVelocityChange.x, -maxVelocityChange, maxVelocityChange);
+            runVelocityChange.z = Mathf.Clamp(runVelocityChange.z, -maxVelocityChange, maxVelocityChange);
+            runVelocityChange.y = 0;
+
+            hipsRb.AddForce(runVelocityChange, ForceMode.VelocityChange);
+        }
     }
-
-    // Apply balance forces
-    headRb.AddForce(Vector3.up * balanceForce);
-    hipsRb.AddForce(Vector3.down * balanceForce);
-
-    // Jump logic
-    if (isGrounded && !isDead && Input.GetKeyDown(KeyCode.Space))
-    {
-        hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-        hipsRb.AddTorque(new Vector3(750, 0));
-    }
-
-    // Adjust speed if running
-    if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
-    {
-        Vector3 runVelocity = rotatedMoveDirection * (moveSpeed * speedMultiplier);
-        Vector3 runVelocityChange = runVelocity - hipsRb.velocity;
-        runVelocityChange.x = Mathf.Clamp(runVelocityChange.x, -maxVelocityChange, maxVelocityChange);
-        runVelocityChange.z = Mathf.Clamp(runVelocityChange.z, -maxVelocityChange, maxVelocityChange);
-        runVelocityChange.y = 0;
-
-        hipsRb.AddForce(runVelocityChange, ForceMode.VelocityChange);
-    }
-}
 
 
 
@@ -196,7 +198,7 @@ public class PlayerController2 : NetworkBehaviour
         headRb.AddForce(Vector3.up * balanceForce);
         hipsRb.AddForce(Vector3.down * balanceForce);
     }
-
+    
     void CheckGrounded()
     {
         bool leftCheck = false;
@@ -213,7 +215,7 @@ public class PlayerController2 : NetworkBehaviour
         {
             SetDrives();
         }
-     
+
     }
 
     public void Die(bool respawn)
@@ -234,6 +236,30 @@ public class PlayerController2 : NetworkBehaviour
             isDead = true;
     }
 
+    void DoubleJump()
+    {
+        // Jump logic
+        if (!isDead && Time.time - lastJumpTime >= jumpCoolDown && currentJumps < maxJumps &&
+            Input.GetKeyDown(KeyCode.Space))
+        {
+            hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
+            hipsRb.AddTorque(new Vector3(750, 0));
+
+            currentJumps++;
+            lastJumpTime = Time.time;
+            // If maximum jumps reached, start cooldown
+            if (currentJumps >= maxJumps)
+            {
+                StartCoroutine(JumpCoolDownRoutine());
+            }
+        }
+
+        IEnumerator JumpCoolDownRoutine()
+        {
+            yield return new WaitForSeconds(jumpCoolDown);
+            currentJumps = 0; // Reset jumps after cooldown
+        }
+    }
     void SetDrives()
     {
         for (int i = 0; i < cjs.Length; i++)
@@ -244,12 +270,6 @@ public class PlayerController2 : NetworkBehaviour
 
         proceduralLegs.EnableIk();
         isGrounded = true;
-    }
-
-    void Jump()
-    {
-        hipsRb.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
-        hipsRb.AddTorque(new Vector3(750, 0));
     }
 }
 
